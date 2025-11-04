@@ -5,7 +5,7 @@ import { sequelize } from './config/db.mjs'
 import './config/db.mjs' 
 import './models/User.mjs' 
 import './models/Product.mjs' 
-import { routes as userRoutes } from "./routes/user.mjs" 
+import { routes } from "./routes/user.mjs" 
 import { productRoutes } from "./routes/product.mjs" 
 
 const PORT = 3001 
@@ -13,7 +13,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use(userRoutes) 
+app.use(routes) 
 
 app.use("/products", productRoutes) 
 

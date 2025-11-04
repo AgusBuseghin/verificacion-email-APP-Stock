@@ -325,3 +325,111 @@ La aplicación de frontend implementa una **doble verificación** de seguridad p
 
 La seguridad **real** reside exclusivamente en el **Backend (API)**. El frontend solo oculta botones para el usuario honesto. Si un usuario intenta forzar una petición no autorizada (ej. modificando el DOM o usando una herramienta de terceros), el Backend la rechazará de manera segura con un **403 Forbidden**, independientemente de lo que muestre la interfaz de usuario.
 
+# 📖 Documentación Frontend: Inventario APP
+
+Este documento describe las principales rutas (vistas) y los *layouts* (contenedores) de la aplicación, su propósito y sus componentes visuales clave, según la estructura definida en `App.jsx`.
+
+## 1. Layouts (Contenedores de Ruta)
+
+### 1.1. Layout Público (`<Public />`)
+
+* **Archivo:** `Public.jsx`
+* **Rutas que envuelve:** `/` (Login) y `/register` (Registro).
+* **Descripción:** Es el contenedor para usuarios *no* autenticados. Provee el fondo (`deposito.jpg`) y una capa de opacidad oscura.
+* **Vistas Clave:**
+    ![Formulario de 'Iniciar Sesión' vacío sobre fondo de almacén](./front/imagenes/loginform.jpeg)
+
+### 1.2. Layout Privado (`<Private />`)
+
+* **Archivo:** `Private.jsx`
+* **Rutas que envuelve:** `/private` (Listado), `/private/product/new` (Crear) y `/private/product/edit/:id` (Editar).
+* **Descripción:** Es el contenedor para usuarios *autenticados*. Muestra la barra de navegación superior persistente.
+* **Vistas Clave:**
+    * **Header Persistente:**
+        ![Barra de navegación privada con 'Inventario APP', 'Bienvenido' y 'Cerrar Sesión'](./front/imagenes/dashboard.jpeg)
+    * **Toast de Cierre de Sesión:**
+        ![Notificación (toast) azul de 'Sesión cerrada'](./front/imagenes/logout.jpeg)
+
+---
+
+## 2. 🗺️ Documentación de Rutas
+
+### 📍 Ruta: `/` (Login)
+
+* **Componente:** `Login.jsx`
+* **Layout:** `<Public />`
+* **Descripción:** Página de inicio de sesión.
+* **Vistas Clave:**
+    * **Estado Inicial:**
+        ![Formulario de 'Iniciar Sesión' vacío sobre fondo de almacén](./front/imagenes/loginform.jpeg)
+    * **Estado de Carga:**
+        ![Botón de formulario en estado deshabilitado con texto 'Cargando...'](./front/imagenes/loginloadin.png)
+    * **Éxito (Toast):**
+        ![Notificación (toast) verde de 'Sesión iniciada'](./front/imagenes/loginsuccess.jpeg)
+
+### 📍 Ruta: `/register` (Registro)
+
+* **Componente:** `Register.jsx`
+* **Layout:** `<Public />`
+* **Descripción:** Página de registro de nuevos usuarios.
+* **Vistas Clave:**
+    * **Estado Inicial:**
+        ![Formulario de 'Registrarse' vacío sobre fondo de almacén](./front/imagenes/registerform.jpeg)
+    * **Error de Validación (Nativo):**
+        ![Error de validación nativo del navegador en campo de email](./front/imagenes/registervalidation.jpeg)
+    * **Error (Toast):**
+        ![Notificación (toast) roja de error 'Las contraseñas no coinciden'](./front/imagenes/registererror.jpeg)
+    * **Éxito (Toast):**
+        ![Notificación (toast) verde de 'Usuario creado'](./front/imagenes/registersuccess.jpeg)
+
+### 📍 Ruta: `/private` (Listado de Productos)
+
+* **Componente:** `ProductList.jsx`
+* **Layout:** `<Private />`
+* **Descripción:** "Dashboard" principal. Consulta y muestra el listado de todos los productos.
+* **Vistas Clave:**
+    * **Listado de Productos y Panel de Historial:**
+        ![Dashboard principal con lista de productos y panel de historial](./front/imagenes/dashboard.jpeg)
+    * **Confirmación de Borrado:**
+        ![Alerta nativa del navegador 'Desea eliminar el producto'](./front/imagenes/deleteconfirm.jpeg)
+    * **Éxito de Borrado (Toast):**
+        ![Notificación (toast) azul de 'Producto eliminado correctamente'](./front/imagenes/deletetoast.jpeg)
+
+### 📍 Ruta: `/private/product/new` (Crear Producto)
+
+* **Componente:** `ProductForm.jsx` (Modo "Crear")
+* **Layout:** `<Private />`
+* **Descripción:** Muestra un formulario para crear un nuevo producto.
+* **Vistas Clave:**
+    * **Estado Inicial:**
+        ![Formulario de 'Cargar Producto' con campos vacíos](./front/imagenes/formnew.jpeg)
+    * **Errores de Validación (App):**
+        ![Formulario 'Cargar Producto' mostrando errores de validación en rojo](./front/imagenes/validationapp.jpeg)
+    * **Errores de Validación (Nativo):**
+        ![Error de validación nativo del navegador en campo 'Stock' por decimal](./front/imagenes/validationnative.jpeg)
+    * **Éxito (Toast):**
+        ![Notificación (toast) verde de 'Producto cargado'](./front/imagenes/newtoast.jpeg)
+
+### 📍 Ruta: `/private/product/edit/:id` (Editar Producto)
+
+* **Componente:** `ProductForm.jsx` (Modo "Editar")
+* **Layout:** `<Private />`
+* **Descripción:** Muestra un formulario para editar un producto existente.
+* **Vistas Clave:**
+    * **Estado Inicial (Datos Cargados):**
+        ![Formulario de 'Editar Producto' con campos rellenados](./front/imagenes/formedit.jpeg)
+
+### 📍 Ruta: `*` (Página 404)
+
+* **Componente:** `<h1>404</h1>` (Inline)
+* **Descripción:** Ruta "catch-all" si el usuario navega a una URL que no existe.
+
+---
+
+## 3. 🧩 Componentes Reutilizables (UI)
+
+* **`Form.jsx`:** Contenedor blanco con sombra y título (Login/Registro).
+* **`Input.jsx`:** Componente de input de formulario (etiqueta + campo).
+* **`Button.jsx`:** Botón estándar de la aplicación.
+* **`Container.jsx`:** Contenedor blanco para el listado de productos.
+* **`ProductRow.jsx`:** Componente individual para mostrar cada producto en la lista.

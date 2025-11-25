@@ -4,6 +4,8 @@ import { Input } from './Input'
 import { Button } from "./Button"
 import { Link } from 'react-router-dom' 
 import { toast } from "react-toastify"
+import {auth} from "./firebase.js"
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 
 const Legend = () => {
     return (
@@ -25,6 +27,7 @@ const Register = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
@@ -50,12 +53,20 @@ const Register = () => {
                 toast.error(errorRes.msg)
                 return
             }
-
+            
             const res = await req.json()
-
+            
             if (res.error) {
                 toast.error(res.msg)
                 return
+            }
+
+            try{
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+                await sendEmailVerification(userCredential.user)
+                setMsg("Cuenta creada. Revisa tu correo para verificar la cuenta.")
+            } catch (er){
+                setMsg(er.message)
             }
 
             toast.success(res.msg)
@@ -63,6 +74,7 @@ const Register = () => {
             setEmail("")
             setPassword("")
             setConfirmPassword("")
+
 
         } catch (e){
             console.log(e)
@@ -80,6 +92,8 @@ const Register = () => {
         buttonValue = "Registrarse"
     }
 
+    
+
     return (
         <Form title="Registrarse" Legend={Legend} onSubmit={handleSubmit}>
             <Input name="fullName" type="text" id="fullname" title="Nombre completo" placeholder="Nombre y Apellido"
@@ -95,6 +109,7 @@ const Register = () => {
                 value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <Button type='submit' value={buttonValue} disabled={loading} />
+        <p>{msg}</p>
         </Form>
     )
 }

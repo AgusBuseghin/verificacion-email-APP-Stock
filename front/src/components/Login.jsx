@@ -6,6 +6,8 @@ import { Button } from "./Button"
 import { toast } from 'react-toastify'
 import { useStore } from '../store/useStore'
 import { useNavigate } from 'react-router-dom' 
+import {auth} from "./firebase.js"
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 const Legend = () => {
   return (
@@ -27,6 +29,7 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
+  const [msg, setMsg] = useState("")
   
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -43,6 +46,16 @@ const Login = () => {
         return
       }
       
+      try{
+        const {user} = await signInWithEmailAndPassword(auth, email, password)
+        if (!user.emailVerified){
+          setMsg("Debe verificar su correo antes de iniciar sesión.")
+          return
+        }
+      } catch (er){
+        setMsg("Error: " + er.message)
+      }
+
       setUser(res.user) 
       toast.success("Sesión iniciada")
       navigate("/private") 
@@ -64,6 +77,7 @@ const Login = () => {
         value={password} onChange={(e) => { setPassword(e.target.value) }}
       />
       <Button type='submit' value={loading ? "Cargando..." : "Iniciar Sesion"} disabled={loading} />
+    <p>{msg}</p>
     </Form>
   )
 }

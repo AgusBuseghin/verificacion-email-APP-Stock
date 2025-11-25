@@ -8,7 +8,7 @@
 
 **Profesor/a**: Malfasi Federico
 
-**Alumnos:** Aramburú-Lebus Santiago, Buseghin Augustín, Martinez Nestor, Tomadín Tobías, Vega Paula
+**Alumnos:** Aramburú-Lebus Santiago, Buseghin Agustín, Martinez Nestor, Tomadín Tobías, Vega Paula
 
 **Fecha de entrega**: Martes 4 de Noviembre
 

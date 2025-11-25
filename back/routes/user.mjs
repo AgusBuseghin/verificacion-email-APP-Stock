@@ -16,9 +16,11 @@ routes.post("/", async (req, res) => {
             })
             return
         }
+        
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
         const activateToken = "123" 
+        console.log("body: " + JSON.stringify(req.body))
         const user = new User({
             fullName,
             email,

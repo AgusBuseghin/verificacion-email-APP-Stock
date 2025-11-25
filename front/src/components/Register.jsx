@@ -70,6 +70,7 @@ const Register = () => {
             }
 
             toast.success(res.msg)
+            toast.info("El correo puede haber llegado a la carpeta de spam.")
             setFullName("")
             setEmail("")
             setPassword("")
